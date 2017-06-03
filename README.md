@@ -1,9 +1,9 @@
-# Memory_Manager
+# Conjuntos-Dominantes
 
 Autores: Irene Ginani e João Emmanuel
 
-# Conjuntos-Dominantes
-Projeto feito para a disciplina de Grafos, que consiste em achar um conjunto dominante em uma rede ad hoc
+# Sobre o Projeto
+Feito para a disciplina de Grafos, que consiste em achar um conjunto dominante em uma rede ad hoc
 
 # Como compilar
 
