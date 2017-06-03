@@ -10,7 +10,7 @@
 
 struct Graph{
 
-	std::vector<std::vector<int>> matriz_adj;
+	std::vector<std::vector<Vertice>> matriz_adj;
 
 };
 
@@ -18,17 +18,29 @@ struct Graph{
 //geração de grafos densos, no caso grafos completos;
 void GRAPHrand2(Graph &G,int V, int A) { 
 
-	std::vector <int> linha;
+	std::vector <Vertice> linha;
     double prob = (double) A / V / (V-1);
-   
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  	std::default_random_engine generator (seed);
+
+  	std::uniform_real_distribution<double> distribution (0.0,100.0);
+
+  	std::uniform_real_distribution<double> mobilidade (0.0,1.0);
+
+  	std::uniform_real_distribution<double> potencia (0.0,1.0);
+
+
 	   for (int i = 0 ; G.matriz_adj.size() < V; i++){ 	  	 
 	      for ( int j=0; linha.size() < V; j++){
 	        if (i != j){
-	         	int w = 1;
+	        	Vertice w(0,0,0.0,0.0,0.0);
 	            if (rand() < prob*(10000000000000000000)){
+	            	w.setM_v(mobilidade(generator));
+	         		w.setP_v(potencia(generator));
+	            	w.setD_v(distribution(generator));
 	               linha.push_back(w);
 	            }else 
-	            	linha.push_back(0);
+	            	linha.push_back(w);
 	       	 }
 	       }
 
@@ -37,10 +49,14 @@ void GRAPHrand2(Graph &G,int V, int A) {
 	       linha.clear();
 	   }
 
-	   for (int i = 0 ; i < G.matriz_adj.size(); i++){ 	  	 
-	      for ( int j=0; j < G.matriz_adj[0].size(); j++){
+	  for (int i = 0 ; i < V; i++){ 	  	 
+	      for ( int j=0; j < V; j++){
+
+	      	G.matriz_adj[i][j].setD_v(G.matriz_adj[j][i].getD_v());
+
 	      	if(i == j)
-	      		G.matriz_adj[i][j] = 0;
+	      		G.matriz_adj[i][j].setD_v(0);
+	      		
 	      }
 	  }
 }
@@ -49,21 +65,30 @@ void GRAPHrand2(Graph &G,int V, int A) {
 //geração de grafo  aleatório, não necessariamente denso
 void GRAPHrand1(Graph &G,int V, int A) { 
 
-	std::vector <int> linha;
+	std::vector <Vertice> linha;
     double prob = (double) A / V / (V-1);
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   	std::default_random_engine generator (seed);
 
   	std::uniform_real_distribution<double> distribution (0.0,100.0);
 
+  	std::uniform_real_distribution<double> mobilidade (0.0,1.0);
+
+  	std::uniform_real_distribution<double> potencia (0.0,1.0);
+
+	
+
 	   for (int i = 0 ; G.matriz_adj.size() < V; i++){ 	  	 
 	      for ( int j=0; linha.size() < V; j++){
 	        if (i != j){
-	         	int w =  (int) distribution(generator);
-	            if (rand() % 5 + 0 < prob*(100)){
+	         	Vertice w(0,0,0.0,0.0,0.0);
+	         	if (rand() % 5 + 0 < prob*(100)){
+	         		w.setM_v(mobilidade(generator));
+	         		w.setP_v(potencia(generator));
+	            	w.setD_v(distribution(generator));
 	               linha.push_back(w);
 	            }else 
-	            	linha.push_back(0);
+	            	linha.push_back(w);
 	       	 }
 	       }
 
@@ -72,12 +97,17 @@ void GRAPHrand1(Graph &G,int V, int A) {
 	       linha.clear();
 	   }
 
-	   for (int i = 0 ; i < G.matriz_adj.size(); i++){ 	  	 
-	      for ( int j=0; j < G.matriz_adj[0].size(); j++){
+    for (int i = 0 ; i < V; i++){ 	  	 
+	      for ( int j=0; j < V; j++){
+
+	      	G.matriz_adj[i][j].setD_v(G.matriz_adj[j][i].getD_v());
+
 	      	if(i == j)
-	      		G.matriz_adj[i][j] = 0;
+	      		G.matriz_adj[i][j].setD_v(0);
+	      		
 	      }
 	  }
+	  
 }
 
 void print(Graph G){
@@ -86,7 +116,7 @@ void print(Graph G){
 		std::cout << i <<":";
 		for (int j = 0; j < G.matriz_adj[i].size(); ++j)
 		{
-			cout << G.matriz_adj[i][j] << ",";
+			cout << G.matriz_adj[i][j].getP_v() << ",";
 		}
 
 		std::cout << endl;
@@ -98,6 +128,12 @@ int main(){
 
 	Graph G;
 
-	GRAPHrand1(G,10,2);
+	GRAPHrand2(G,4,2);
 	print(G);
+
+	cout << "----------------------------------------"<< endl;
+
+	GRAPHrand1(G,4,2);
+	print(G);
+
 }

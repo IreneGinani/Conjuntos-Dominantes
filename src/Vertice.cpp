@@ -29,7 +29,7 @@ double Vertice::getP_v () {
 }
 
 double Vertice::getM_v () {
-	return W_v;
+	return M_v;
 }
 
 void Vertice::setW_v (double v) {
