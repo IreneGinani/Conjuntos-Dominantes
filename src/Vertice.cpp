@@ -1,9 +1,7 @@
-#include "../include/Vertice.h"
-#include <iostream>
+#include "Vertice.h"
 
-using namespace std;
-
-Vertice::Vertice (int grau_n, int diferenca, double distancia, double mobilidade, double processamento) {
+Vertice::Vertice (int id_v, int grau_n, int diferenca, double distancia, double mobilidade, double processamento) {
+	id = id_v;
 	grau = grau_n;
 	G_v = diferenca;
 	D_v = distancia;
@@ -30,6 +28,10 @@ double Vertice::getP_v () {
 
 double Vertice::getM_v () {
 	return M_v;
+}
+
+int Vertice::getId () {
+	return id;
 }
 
 void Vertice::setW_v (double v) {
