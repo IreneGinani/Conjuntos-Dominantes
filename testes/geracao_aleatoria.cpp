@@ -116,7 +116,7 @@ void print(Graph G){
 		std::cout << i <<":";
 		for (int j = 0; j < G.matriz_adj[i].size(); ++j)
 		{
-			cout << G.matriz_adj[i][j].getP_v() << ",";
+			cout << G.matriz_adj[i][j].getD_v() << ",";
 		}
 
 		std::cout << endl;

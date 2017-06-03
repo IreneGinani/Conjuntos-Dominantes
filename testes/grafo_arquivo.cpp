@@ -4,28 +4,43 @@
 #include <fstream>
 #include <string.h>
 #include <sstream>
+#include "../src/Vertice.cpp"
+
+#include <chrono>
+#include <random>
 
 
 using namespace std;
 
 struct Graph{
 
-	std::vector<std::vector<int>> matriz_adj;
+	std::vector<std::vector<Vertice>> matriz_adj;
 
 };
 
 void lerArquivo(std::string arq, Graph &G){
 
 	std::string line, token,posi, posj, peso;
-	int pi,pj,pes;
+	int pi,pj;
+	double pes;
 	std::ifstream info(arq);
 	int counter = 0;
-	std::vector<int> linhas;
+	std::vector<Vertice> linhas;
+
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  	std::default_random_engine generator (seed);
+
+  	std::uniform_real_distribution<double> mobilidade (0.0,1.0);
+
+  	std::uniform_real_distribution<double> potencia (0.0,1.0);
 
 	for (int i =0; i < 124; i++){
 		for (int j = 0; j < 124; j++)
 		{
-			linhas.push_back(0);
+			Vertice w(0,0,0.0,0.0,0.0);
+			w.setM_v(mobilidade(generator));
+	    	w.setP_v(potencia(generator));
+			linhas.push_back(w);
 		}
 
 		G.matriz_adj.push_back(linhas);
@@ -40,6 +55,7 @@ void lerArquivo(std::string arq, Graph &G){
 		getline(info,line);
         std::istringstream ss(line);
         int counter = 1;
+        Vertice w(0,0,0.0,0.0,0.0);
         while(getline(ss, token,' ')) {
 
         	counter++;
@@ -62,7 +78,8 @@ void lerArquivo(std::string arq, Graph &G){
 		pj = atoi(posj.c_str());
 		pes = atoi(peso.c_str());
 
-		G.matriz_adj[pi][pj] = pes;
+		
+		G.matriz_adj[pi][pj].setD_v(pes);
 
 	}
 }
@@ -73,7 +90,7 @@ void print(Graph G){
 		std::cout << i <<":";
 		for (int j = 1; j <= 20; ++j)
 		{
-			cout << G.matriz_adj[i][j] << ",";
+			cout << G.matriz_adj[i][j].getD_v() << ",";
 		}
 
 		std::cout << endl;
