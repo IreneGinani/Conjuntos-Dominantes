@@ -73,8 +73,8 @@ void GRAPHrand1(Graph &G,int V, int A) {
 
 	
 
-	   for (int i = 0 ; G.matriz_adj.size() < V; i++){ 	  	 
-	      for ( int j=0; linha.size() < V; j++){
+	   for (int i = 0 ; G.matriz_adj.size() <= V; i++){ 	  	 
+	      for ( int j=0; linha.size() <= V; j++){
 	        if (i != j){
 	         	double w = 0;
 	         	if (rand() % 5 + 0 < prob*(100)){
@@ -90,8 +90,8 @@ void GRAPHrand1(Graph &G,int V, int A) {
 	       linha.clear();
 	   }
 
-    for (int i = 0 ; i < V; i++){ 	  	 
-	      for ( int j=0; j < V; j++){
+    for (int i = 0 ; i <= V; i++){ 	  	 
+	      for ( int j=0; j <= V; j++){
 
 	      	G.matriz_adj[i][j] = G.matriz_adj[j][i];
 
@@ -120,24 +120,26 @@ void print(Graph G){
 int main(){
 
 
-	std::vector<std::vector<double>> matriz_adjn(4, std::vector<double>(4));
+	std::vector<std::vector<double>> matriz_adjn(6, std::vector<double>(6));
 	std::vector<int> idVerticesConjuntoDominante ;
 
 	Graph G;
 
 	//GRAPHrand2(G,4,2);
+	//print(G);
+
+	//cout << "----------------------------------------"<< endl;
+
+	GRAPHrand1(G,5,5);
 	print(G);
 
-	cout << "----------------------------------------"<< endl;
 
-	GRAPHrand1(G,4,2);
-	print(G);
-
+	std::cout << " "<<std::endl;
 	algo_wca(G.matriz_adj, matriz_adjn, idVerticesConjuntoDominante, 2, 50.0, 0.6, 0.3, 0.05, 0.05);
 
 
 	std::cout << "\nVertices que pertencem ao conjunto dominante:\n";
-	for (int i = 0; i < matriz_adjn.size(); i++) {
+	for (int i = 0; i < idVerticesConjuntoDominante.size(); i++) {
 			std::cout << "Vertice " << idVerticesConjuntoDominante[i] << "\n";	
 	}
 

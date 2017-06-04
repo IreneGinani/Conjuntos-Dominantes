@@ -21,7 +21,7 @@ struct Graph{
 };
 
 void lerArquivo(std::string arq, Graph &G){
-
+	
 	std::string line, token,posi, posj, peso;
 	int pi,pj;
 	double pes;
@@ -31,12 +31,13 @@ void lerArquivo(std::string arq, Graph &G){
 
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   	std::default_random_engine generator (seed);
-
-	for (int i =0; i < 124; i++){
-		for (int j = 0; j < 124; j++)
+	
+	for (int i =0; i <= 1100; i++){
+		for (int j = 0; j <= 1100; j++)
 		{
 			double w = 0;
 			linhas.push_back(w);
+
 		}
 
 		G.matriz_adj.push_back(linhas);
@@ -69,22 +70,25 @@ void lerArquivo(std::string arq, Graph &G){
 
 			
 		}
-
+		
 		pi = atoi(posi.c_str());
 		pj = atoi(posj.c_str());
 		pes = atoi(peso.c_str());
-
+		
 		
 		G.matriz_adj[pi][pj] = pes;
+		G.matriz_adj[pj][pi] = pes;
+
+		//std::cout <<G.matriz_adj[pi][pj]<<std::endl;
 
 	}
 }
 
 void print(Graph G){
 
-	for (int i = 1; i <= 20; i++){
+	for (int i = 0; i <= 1100; i++){
 		std::cout << i <<":";
-		for (int j = 1; j <= 20; ++j)
+		for (int j = 0; j <= 1100; ++j)
 		{
 			cout << G.matriz_adj[i][j] << ",";
 		}
@@ -103,17 +107,17 @@ int main(int argc, char const *argv[])
     Graph G;
     std::string arquivo = argv[1];
     lerArquivo(arquivo, G);
-    print(G);
+    //print(G);
 
-    std::vector<std::vector<double>> matriz_adjn (124, std::vector<double>(124) );;
+    std::vector<std::vector<double>> matriz_adjn (1100, std::vector<double>(1100) );
 	std::vector<int> idVerticesConjuntoDominante;
 
 	
-	algo_wca(G.matriz_adj, matriz_adjn, idVerticesConjuntoDominante, 2, 50.0, 0.6, 0.3, 0.05, 0.05);
+	algo_wca(G.matriz_adj, matriz_adjn, idVerticesConjuntoDominante, 2, 5000.0, 0.6, 0.3, 0.05, 0.05);
 
-
+	//std::cout << idVerticesConjuntoDominante.size();
 	std::cout << "\nVertices que pertencem ao conjunto dominante:\n";
-	for (int i = 0; i < matriz_adjn.size(); i++) {
+	for (int i = 1; i < idVerticesConjuntoDominante.size(); i++) {
 			std::cout << "Vertice " << idVerticesConjuntoDominante[i] << "\n";	
 	}
     
