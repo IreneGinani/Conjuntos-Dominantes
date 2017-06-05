@@ -21,7 +21,7 @@ g++ -std=c++11 testes/geracao_arquivo_double.cpp -o bin/gard
 ```
 Depois execute com:
 ```
-Algoritmo1:
+Algoritmo 1:
 ./bin/wca
 
 Algoritmo 2:
