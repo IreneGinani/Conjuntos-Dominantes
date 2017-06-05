@@ -9,7 +9,7 @@
 #include <chrono>
 #include <random>
 
-#include "../src/main.cpp"
+#include "../src/wca.cpp"
 
 
 using namespace std;
@@ -32,8 +32,8 @@ void lerArquivo(std::string arq, Graph &G){
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   	std::default_random_engine generator (seed);
 	
-	for (int i =0; i <= 1100; i++){
-		for (int j = 0; j <= 1100; j++)
+	for (int i =0; i < 6; i++){
+		for (int j = 0; j <	 6; j++)
 		{
 			double w = 0;
 			linhas.push_back(w);
@@ -86,9 +86,9 @@ void lerArquivo(std::string arq, Graph &G){
 
 void print(Graph G){
 
-	for (int i = 0; i <= 1100; i++){
+	for (int i = 0; i < 6; i++){
 		std::cout << i <<":";
-		for (int j = 0; j <= 1100; ++j)
+		for (int j = 0; j < 6; ++j)
 		{
 			cout << G.matriz_adj[i][j] << ",";
 		}
@@ -109,16 +109,16 @@ int main(int argc, char const *argv[])
     lerArquivo(arquivo, G);
     //print(G);
 
-    std::vector<std::vector<double>> matriz_adjn (1100, std::vector<double>(1100) );
+    std::vector<std::vector<double>> matriz_adjn (6, std::vector<double>(6) );
 	std::vector<int> idVerticesConjuntoDominante;
 
 	
-	algo_wca(G.matriz_adj, matriz_adjn, idVerticesConjuntoDominante, 2, 5000.0, 0.6, 0.3, 0.05, 0.05);
+	algo_wca(G.matriz_adj, matriz_adjn, idVerticesConjuntoDominante, 5, 5000.0, 0.6, 0.3, 0.05, 0.05);
 
 	//std::cout << idVerticesConjuntoDominante.size();
 	std::cout << "\nVertices que pertencem ao conjunto dominante:\n";
-	for (int i = 1; i < idVerticesConjuntoDominante.size(); i++) {
-			std::cout << "Vertice " << idVerticesConjuntoDominante[i] << "\n";	
+	for (int i = 0; i < idVerticesConjuntoDominante.size(); i++) {
+				std::cout << "Vertice " << idVerticesConjuntoDominante[i] << "\n";	
 	}
     
 	return 0;
