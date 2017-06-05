@@ -5,7 +5,7 @@
 
 #include <chrono>
 #include <random>
-#include "../src/main.cpp"
+#include "../src/wca.cpp"
 
 using namespace std;
 
