@@ -25,6 +25,9 @@ Algoritmo1:
 ./bin/wca
 
 Algoritmo 2:
+./bin/gad 
+
+Algoritmo 3:
 ./bin/gard arquivos/exemplo1.txt
 ```
 
