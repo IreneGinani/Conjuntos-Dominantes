@@ -1,4 +1,5 @@
-#include "Vertice.h"
+#include "../include/Vertice.h"
+#include <iostream>
 
 Vertice::Vertice (int id_v, int grau_n, int diferenca, double distancia, double mobilidade, double processamento) {
 	id = id_v;
