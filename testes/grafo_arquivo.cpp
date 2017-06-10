@@ -5,7 +5,7 @@
 #include <string.h>
 #include <sstream>
 #include "../src/Vertice.cpp"
-
+#include "../src/wca.cpp"
 #include <chrono>
 #include <random>
 

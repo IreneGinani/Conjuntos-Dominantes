@@ -2,16 +2,28 @@
 #include <vector> // std::vector(), std::vector<>::iterator 
 #include <stdlib.h> // std::abs()
 #include <algorithm> // sort()
-#include "Vertice.h"
-
+//#include "Vertice.cpp"
+#include <chrono>
+#include <random>
 //Função que compara vertices pela sua média ponderada
 bool comp (Vertice i, Vertice j) { return (i.getW_v() < j.getW_v()); }
 
-void algo_wca (std::vector<std::vector<double>> matrizAdjacencia, std::vector<std::vector<double>> &novaMatrizAdjacencia, std::vector<int> &idVerticesConjuntoDominante,int num_ideal_de_vizinhos, double faixa_transmissao, double v1, double v2, double v3, double v4) {
-	std::vector<Vertice> vertices; //Vetor com todos os vértices do grafo
-	srand(time(NULL));
+void algo_wca(std::vector<std::vector<double>> matrizAdjacencia, std::vector<std::vector<double>> &novaMatrizAdjacencia, std::vector<int> &idVerticesConjuntoDominante,int num_ideal_de_vizinhos, double faixa_transmissao, double v1, double v2, double v3, double v4) {
 	
+	std::vector<Vertice> vertices; //Vetor com todos os vértices do grafo
+	//srand(time(NULL));
+	
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+  	std::default_random_engine generator (seed);
+
+  	std::uniform_real_distribution<double> mobilidade (0.0,1.0);
+
+  	std::uniform_real_distribution<double> potencia (0.0,1.0);
+
+
+
 	for (int i = 0; i < matrizAdjacencia[0].size(); i++) {
+		
 		int grau = 0;
 		double distancia = 0;
 		
@@ -27,9 +39,9 @@ void algo_wca (std::vector<std::vector<double>> matrizAdjacencia, std::vector<st
 		}
 
 		//Gerar um valor de mobilidade m
-		double m = 1.0*((double)(rand())/RAND_MAX);;
+		double m = mobilidade(generator);
 		//Gerar um valor de potencia p
-		double p = 1.0*((double)(rand())/RAND_MAX);;
+		double p = potencia(generator);
 		//COUT PARA AJUDAR NA VISUALIZAÇÃO
 		std::cout << "id: " << i << " " << "grau: " << grau << " " << "|grau - phi| = " << abs(num_ideal_de_vizinhos - grau) << " " << "distancia: " << distancia << " " << "mobilidade: " << m << " " << "potencia: " << p << "\n";
 		std::cout << "\n";
@@ -40,11 +52,11 @@ void algo_wca (std::vector<std::vector<double>> matrizAdjacencia, std::vector<st
 
 	//Ordena o vetor em ordem não decrescente em relação ao valor de W_v de cada vértice
 	std::sort (vertices.begin(), vertices.end(), comp); 
-
-	for (int i = 0; i < vertices.size(); i++) {
-		//COUT PARA AJUDAR NA VISUALIZAÇÃO
-		std::cout << "Vertice " << vertices[i].getId() << " tem valor ponderado igual a: " << vertices[i].getW_v() << "\n";	
-	}
+	std::cout << vertices.size();
+	 for (int i = 0; i < vertices.size(); i++) {
+	 	//COUT PARA AJUDAR NA VISUALIZAÇÃO
+		std::cout << i << "Vertice " << vertices[i].getId() << " tem valor ponderado igual a: " << vertices[i].getW_v() << "\n";	
+	 }
 
 	//Enquanto a lista de vertices não estiver vazia
 	while (!vertices.empty()) {
@@ -52,6 +64,8 @@ void algo_wca (std::vector<std::vector<double>> matrizAdjacencia, std::vector<st
 		int id = vertices[0].getId();
 
 		//Seleciona os vertices vizinhos
+		//std::cout << novaMatrizAdjacencia.size();
+
 		for (int j = 0; j < novaMatrizAdjacencia[0].size(); j++) {
 			if ((matrizAdjacencia[id][j] > 0) && (matrizAdjacencia[id][j] <= faixa_transmissao)) {
 				
@@ -62,9 +76,8 @@ void algo_wca (std::vector<std::vector<double>> matrizAdjacencia, std::vector<st
 				while ( (it1!=it2) && !r ) {
 					if ( (*it1).getId() == j) {
 						r = true;
-					} else {
+					} else 
 						it1++;
-					}
 				}
 
 				//Se o vertice ainda pertence ao vetor
@@ -85,16 +98,22 @@ void algo_wca (std::vector<std::vector<double>> matrizAdjacencia, std::vector<st
 		vertices.erase(vertices.begin()+0);
 
 		std::cout << "\n";
-		for (int i = 0; i < vertices.size(); i++) {
-			//COUT PARA AJUDAR NA VISUALIZAÇÃO
-			std::cout << "Vertice " << vertices[i].getId() << " tem valor ponderado igual a: " << vertices[i].getW_v() << "\n";	
-		}
+
+
+		 for (int i = 0; i < vertices.size(); i++) {
+		 	//COUT PARA AJUDAR NA VISUALIZAÇÃO
+		 	std::cout << i<< "Vertices "<< vertices[i].getId() << " tem valor ponderado igual a: " << vertices[i].getW_v() << "\n";	
+
+
+		 }
 	}
 
 
 }
 
 int main () {
+
+
 	//Ex: MATRIZ DE ADJACENCIA
 	std::vector<std::vector<double>> matrizAdjacencia (5, std::vector<double>(5) );
 	std::vector<std::vector<double>> novaMatrizAdjacencia (5, std::vector<double>(5) );
@@ -113,6 +132,8 @@ int main () {
 			}
 		}
 	}
+
+	std::cout <<matrizAdjacencia[0].size();
 
 	algo_wca(matrizAdjacencia, novaMatrizAdjacencia, idVerticesConjuntoDominante, 2, 50.0, 0.6, 0.3, 0.05, 0.05);
 

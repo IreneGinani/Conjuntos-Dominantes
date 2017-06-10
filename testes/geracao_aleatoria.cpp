@@ -5,6 +5,7 @@
 
 #include <chrono>
 #include <random>
+#include "../src/wca.cpp"
 
 /* Essa função constrói um grafo aleatório com vértices 0..V-1 e exatamente A arcos. A função supõe que A <= V*(V-1). Se A for próximo de V*(V-1), a função pode consumir muito tempo. (Código inspirado no Programa 17.7 de Sedgewick.) */
 
@@ -19,6 +20,8 @@ struct Graph{
 void GRAPHrand2(Graph &G,int V, int A) { 
 
 	std::vector <Vertice> linha;
+    
+
     double prob = (double) A / V / (V-1);
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
   	std::default_random_engine generator (seed);
